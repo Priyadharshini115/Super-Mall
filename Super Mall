@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Mall Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🛍️ Super Mall Manager</h1>
+
+  <section id="shop-form">
+    <h2>Add Shop</h2>
+    <input type="text" id="shopName" placeholder="Shop Name" />
+    <input type="text" id="shopLocation" placeholder="Location" />
+    <button onclick="addShop()">Add Shop</button>
+  </section>
+
+  <section id="shop-list">
+    <h2>Shops</h2>
+    <ul id="shops"></ul>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  color: #333;
+}
+
+section {
+  margin-bottom: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+input {
+  margin: 5px;
+  padding: 8px;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+let shops = [];
+
+function addShop() {
+  const name = document.getElementById("shopName").value;
+  const location = document.getElementById("shopLocation").value;
+
+  if (name && location) {
+    const shop = { name, location, products: [], offers: [] };
+    shops.push(shop);
+    displayShops();
+    document.getElementById("shopName").value = "";
+    document.getElementById("shopLocation").value = "";
+  }
+}
+
+function displayShops() {
+  const shopList = document.getElementById("shops");
+  shopList.innerHTML = "";
+
+  shops.forEach((shop, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <strong>${shop.name}</strong> - ${shop.location}
+      <button onclick="addOffer(${index})">Add Offer</button>
+      <button onclick="addProduct(${index})">Add Product</button>
+    `;
+    shopList.appendChild(li);
+  });
+}
+
+function addOffer(index) {
+  const offer = prompt("Enter offer for " + shops[index].name);
+  if (offer) {
+    shops[index].offers.push(offer);
+    alert("Offer added!");
+  }
+}
+
+function addProduct(index) {
+  const product = prompt("Enter product for " + shops[index].name);
+  if (product) {
+    shops[index].products.push(product);
+    alert("Product added!");
+  }
+}
